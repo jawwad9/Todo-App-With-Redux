@@ -12,12 +12,12 @@ const App = () => {
   const addTodoInRedux = (event) => {
     event.preventDefault();
     console.log("todo added", todoVal.current.value);
-    dispatch(addTodo({
+    if (todoVal.current.value !== "") {dispatch(addTodo({
       title: todoVal.current.value
     }))
     todoVal.current.value = ''
-
   }
+}
   
 
   const deleteItemFromRedux = (index) => {
@@ -31,29 +31,37 @@ const App = () => {
   const editItemFromRedux = (index) => {
     console.log("edit Item", index );
     const editVal = prompt("Enter Todo");
-    dispatch(editTodo({
-      index
+    if (editVal) {dispatch(editTodo({
+      index,
+      title: editVal
     }))  }
+  }
 
 
   return (
     <>
       
-      <div>App</div>
-
+      <div className=" d-flex flex-column align-items-center p-4 min-vh-100 bg-light">
+        <div>
+        <h1 className="text-center mt-3">Todo App</h1>
        <form>
         <input type="text" ref={todoVal} />
-        <button onClick={addTodoInRedux}>add Todo</button>
+        <button className="btn btn-primary " onClick={addTodoInRedux}>add Todo</button>
        </form>
+        </div>
 
-          <ul>
+       
+          <div className=" bg-light text-center p-5 gap-3 list-group w-100 " style={{ maxWidth: '500px' }}>
            {selector.length > 0 ? selector.map((item , index) => {
-            return <li key={item.id}>{item.title}
-            <button onClick={()=>deleteItemFromRedux(index)}>Delete</button>
-            <button onClick={()=>editItemFromRedux(index)}>Edit</button>
-            </li>
+            return <div key={item.id} className="d-flex justify-content-around align-items-center mb-2 p-2 rounded shadow-sm bg-gray-800 p-6 rounded-lg shadow-lg transition transform hover:scale-105 hover:shadow-cyan-500/50 rounded">{item.title}
+            <div className="btn-group d-flex align-items-center justy-content-center flex-wrap">
+            <button  className="btn btn-danger " onClick={()=>deleteItemFromRedux(index)}>Delete</button>
+            <button className="btn btn-primary" onClick={()=>editItemFromRedux(index)}>Edit</button>
+            </div>
+            </div>
           }) : <h1>No data found</h1>}
-        </ul>
+        </div>
+        </div>
 
     </>
   )

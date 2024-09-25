@@ -18,7 +18,10 @@ export const todoSlice = createSlice({
             state.todo.splice(action.payload.index , 1)
         },
         editTodo: (state, action) => {
-            state.todo.splice(action.payload.index , 1 )
+            const todoToEdit = state.todo[action.payload.index]
+            if (todoToEdit) {
+                todoToEdit.title = action.payload.title; // Update the title
+            }
         }
     }
 })
